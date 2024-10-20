@@ -6,12 +6,16 @@ use App\Filament\Resources\ProjectCategoryResource\Pages;
 use App\Filament\Resources\ProjectCategoryResource\RelationManagers;
 use App\Models\ProjectCategory;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Tables\Columns\ColorColumn;
 
 class ProjectCategoryResource extends Resource
 {
@@ -23,16 +27,29 @@ class ProjectCategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('icon')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('color')
-                    ->maxLength(20),
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->columnSpanFull(),
+                Section::make('General')
+                    ->schema([
+                        Forms\Components\Grid::make(3)->Columns(3)->schema([
+                            Forms\Components\TextInput::make('name')
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\FileUpload::make('icon')
+                                ->image()
+                                ->directory('project-category-icons')
+                                ->visibility('public')
+                                ->disk('public')
+                                ->maxSize(1024)
+                                ->maxFiles(1),
+                            ColorPicker::make('color')
+                                ->rgb(),
+                        ]),
+
+                        Forms\Components\Textarea::make('description')
+                            ->required()
+                            ->columnSpanFull(),
+                    ]),
+
+
             ]);
     }
 
@@ -42,9 +59,11 @@ class ProjectCategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('icon')
+                Tables\Columns\ImageColumn::make('icon')
+                    ->circular()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('color')
+                ColorColumn::make('color')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()

@@ -8,4 +8,8 @@ class ProjectCategory extends Model
 {
 
     protected $fillable = ['name', 'color', 'icon', 'description'];
+
+    protected $casts = [
+        'color' => 'array',
+    ];
 }
