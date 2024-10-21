@@ -26,10 +26,16 @@ class TeamResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('leader_id')
+                    ->label('Team Leader')
+                    ->relationship('leader', 'name')
+                    ->searchable(),
+                Forms\Components\Select::make('members')
+                    ->multiple()
+                    ->relationship('members', 'name')
+                    ->searchable(),
                 Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('leader_id')
-                    ->numeric(),
+                    ->maxLength(65535),
             ]);
     }
 
@@ -37,23 +43,17 @@ class TeamResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('leader_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('leader.name')->label('Team Leader'),
+                Tables\Columns\TextColumn::make('members.name')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'Agung' => 'Agung',
+                        'Melina' => 'Melina',
+                        'Azizah' => 'Azizah',
+                        'Vivi' => 'Vivi',
+                        default => 'secondary',
+                    }),
             ])
             ->filters([
                 //

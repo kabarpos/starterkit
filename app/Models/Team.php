@@ -2,19 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
 {
-    protected $fillable = [
-        'name',
-        'description',
-        'leader_id',
+    use HasFactory;
 
-    ];
+    protected $fillable = ['name', 'leader_id', 'description'];
 
-    public function teamMembers()
+    public function leader()
     {
-        return $this->hasMany(TeamMember::class, 'team_id');
+        return $this->belongsTo(User::class, 'leader_id');
+    }
+
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'team_members')->withTimestamps();
     }
 }

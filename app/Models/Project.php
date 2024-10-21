@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
@@ -9,6 +10,7 @@ class Project extends Model
     protected $fillable = [
         'name',
         'description',
+        'project_category_id',
         'client_id',
         'team_id',
         'status',
@@ -20,9 +22,14 @@ class Project extends Model
     protected $casts = [
         'start_date' => 'date',
         'due_date' => 'date',
-        'budget' => 'unsignedBigInteger',
+        'budget' => MoneyCast::class,
 
     ];
+
+    public function projectCategory()
+    {
+        return $this->belongsTo(ProjectCategory::class);
+    }
 
     public function client()
     {

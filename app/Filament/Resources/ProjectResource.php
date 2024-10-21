@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+
 class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
@@ -23,29 +24,37 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('project_category_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('project_category_id')
+                    ->relationship('projectCategory', 'name')
+                    ->required(),
                 Forms\Components\TextInput::make('name')
+                    ->label('Project Name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('client_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('client_id')
+                    ->relationship('client', 'name')
+                    ->searchable()
+                    ->required(),
                 Forms\Components\TextInput::make('team_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('status')
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'Todo' => 'Todo',
+                        'In Progress' => 'In Progress',
+                        'Completed' => 'Completed',
+                        'Cancelled' => 'Cancelled',
+                    ])
                     ->required(),
                 Forms\Components\DatePicker::make('start_date'),
                 Forms\Components\DatePicker::make('due_date'),
                 Forms\Components\TextInput::make('budget')
-                    ->required()
                     ->numeric()
-                    ->default(0),
+                    ->default(0)
+                    ->prefix('Rp'),
             ]);
     }
 

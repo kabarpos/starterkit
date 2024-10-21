@@ -20,8 +20,26 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'User 1',
-            'email' => 'user1@example.com',
+            'name' => 'Agung',
+            'email' => 'agung@dilogif.com',
+            'password' => Hash::make('password'), // Pastikan password terenkripsi
+        ]);
+
+        User::create([
+            'name' => 'Melina',
+            'email' => 'melina@dilogif.com',
+            'password' => Hash::make('password'), // Pastikan password terenkripsi
+        ]);
+
+        User::create([
+            'name' => 'Azizah',
+            'email' => 'azizah@dilogif.com',
+            'password' => Hash::make('password'), // Pastikan password terenkripsi
+        ]);
+
+        User::create([
+            'name' => 'Vivi',
+            'email' => 'vivi@dilogif.com',
             'password' => Hash::make('password'), // Pastikan password terenkripsi
         ]);
     }

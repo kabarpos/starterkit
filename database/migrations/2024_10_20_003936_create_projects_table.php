@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_category_id')->constrained();
+            $table->string('code')->unique();
+            $table->foreignId('project_category_id')->constrained('project_categories');
             $table->string('name');
             $table->string('description');
-            $table->foreignId('client_id')->constrained();
-            $table->foreignId('team_id')->constrained();
+            $table->foreignId('client_id')->constrained('clients');
+            $table->foreignId('team_id')->constrained('teams');
             $table->enum('status', ['todo', 'in_progress', 'completed', 'cancelled'])->default('todo');
             $table->date('start_date')->nullable();
             $table->date('due_date')->nullable();

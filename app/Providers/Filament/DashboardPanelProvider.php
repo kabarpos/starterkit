@@ -30,6 +30,11 @@ class DashboardPanelProvider extends PanelProvider
             ->login()
             ->colors([
                 'primary' => Color::Amber,
+                'secondary' => Color::Indigo,
+                'Melina' => Color::Indigo,
+                'Azizah' => Color::Blue,
+                'Agung' => Color::Green,
+                'Vivi' => Color::Pink,
             ])
             ->plugins([
                 FilamentShieldPlugin::make()
