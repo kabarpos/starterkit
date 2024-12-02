@@ -16,7 +16,7 @@ class HeroResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-photo';
     
-    protected static ?string $navigationGroup = 'Content';
+    protected static ?string $navigationGroup = 'Content Management';
 
     protected static ?int $navigationSort = 1;
 
@@ -36,7 +36,7 @@ class HeroResource extends Resource
                         Forms\Components\TextInput::make('button_link')
                             ->maxLength(255)
                             ->url(),
-                        Forms\Components\SpatieMediaLibraryFileUpload::make('image')
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('hero')
                             ->collection('hero')
                             ->image()
                             ->imageEditor()
@@ -57,7 +57,7 @@ class HeroResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\SpatieMediaLibraryImageColumn::make('image')
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('hero')
                     ->collection('hero'),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),

@@ -24,4 +24,11 @@ class Hero extends Model implements HasMedia
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('hero')
+            ->singleFile()
+            ->useFallbackUrl('https://images.unsplash.com/photo-1582407947304-fd86f028f716');
+    }
 }

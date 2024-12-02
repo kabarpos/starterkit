@@ -84,75 +84,73 @@
 
         @section('content')
             <!-- Hero Section with Swiper -->
-            <div class="relative">
-                <div class="swiper hero-swiper">
+            <div class="relative bg-gray-900">
+                <div class="swiper hero-swiper h-full">
                     <div class="swiper-wrapper">
                         @forelse($heroes as $hero)
-                            <div class="swiper-slide relative min-h-[600px] lg:min-h-[700px]">
-                                <div class="absolute inset-0">
-                                    <img src="{{ $hero->getFirstMediaUrl('hero') }}" 
-                                         alt="{{ $hero->title }}" 
-                                         class="w-full h-full object-cover">
-                                    <!-- Gradient Overlay -->
-                                    <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30"></div>
-                                </div>
-                                <div class="hero-content-wrapper relative h-full">
-                                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-                                        <div class="text-white max-w-2xl">
-                                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate__animated animate__fadeInUp">
-                                                {{ $hero->title }}
-                                            </h1>
-                                            <p class="text-lg md:text-xl lg:text-2xl mb-8 text-gray-200 leading-relaxed animate__animated animate__fadeInUp animate__delay-1s">
+                            <div class="swiper-slide relative min-h-[500px] flex items-center justify-center overflow-hidden">
+                                @if($hero->getFirstMediaUrl('hero'))
+                                    <div class="absolute inset-0">
+                                        <img src="{{ $hero->getFirstMediaUrl('hero') }}" 
+                                             alt="{{ $hero->title }}" 
+                                             class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black/50"></div>
+                                    </div>
+                                @endif
+                                
+                                <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-16">
+                                    <div class="animate__animated animate__fadeIn text-center sm:text-left max-w-3xl mx-auto sm:mx-0">
+                                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+                                            {{ $hero->title }}
+                                        </h1>
+                                        @if($hero->subtitle)
+                                            <p class="text-lg sm:text-xl md:text-2xl text-gray-200 mb-8">
                                                 {{ $hero->subtitle }}
                                             </p>
-                                            @if($hero->button_text)
-                                                <a href="{{ $hero->button_link }}" 
-                                                   class="inline-flex items-center px-8 py-4 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out animate__animated animate__fadeInUp animate__delay-2s">
-                                                    {{ $hero->button_text }}
-                                                    <svg class="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                                    </svg>
-                                                </a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <div class="swiper-slide relative min-h-[600px] lg:min-h-[700px]">
-                                <div class="absolute inset-0">
-                                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6" 
-                                         alt="Default Hero" 
-                                         class="w-full h-full object-cover">
-                                    <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30"></div>
-                                </div>
-                                <div class="hero-content-wrapper relative h-full">
-                                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-                                        <div class="text-white max-w-2xl">
-                                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                                                Find Your Dream Property
-                                            </h1>
-                                            <p class="text-lg md:text-xl lg:text-2xl mb-8 text-gray-200 leading-relaxed">
-                                                Discover the perfect property that matches your lifestyle
-                                            </p>
-                                            <a href="{{ route('properties.index') }}" 
-                                               class="inline-flex items-center px-8 py-4 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out">
-                                                Browse Properties
+                                        @endif
+                                        @if($hero->button_text && $hero->button_link)
+                                            <a href="{{ $hero->button_link }}" 
+                                               class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-300">
+                                                {{ $hero->button_text }}
                                                 <svg class="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                                 </svg>
                                             </a>
-                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="swiper-slide relative min-h-[500px] flex items-center justify-center overflow-hidden">
+                                <div class="absolute inset-0">
+                                    <img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716" 
+                                         alt="Default Hero" 
+                                         class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black/50"></div>
+                                </div>
+                                <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-16">
+                                    <div class="animate__animated animate__fadeIn text-center sm:text-left max-w-3xl mx-auto sm:mx-0">
+                                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+                                            Welcome to Our Property Portal
+                                        </h1>
+                                        <p class="text-lg sm:text-xl md:text-2xl text-gray-200 mb-8">
+                                            Discover your dream property with our extensive collection of premium listings.
+                                        </p>
+                                        <a href="#featured-properties" 
+                                           class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-300">
+                                            View Properties
+                                            <svg class="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         @endforelse
                     </div>
-                    <!-- Navigation Buttons -->
+                    <div class="swiper-pagination"></div>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
-                    <!-- Pagination -->
-                    <div class="swiper-pagination"></div>
                 </div>
             </div>
 
@@ -200,7 +198,7 @@
                                         </div>
                                         <div class="flex items-center">
                                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3h2v4l.586-.586z"></path>
                                             </svg>
                                             {{ $property->bathrooms }} Baths
                                         </div>
