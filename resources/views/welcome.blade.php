@@ -20,7 +20,12 @@
         @endif
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-        <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
+        @extends('layouts.app')
+
+        @section('title', 'Welcome')
+
+        @section('content')
+            <!-- Hero Section -->
             <div class="relative bg-gray-900 h-[600px]">
                 <div class="absolute inset-0">
                     <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6" alt="Hero Image" class="w-full h-full object-cover opacity-50">
@@ -29,32 +34,40 @@
                     <div class="text-white">
                         <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Find Your Dream Property</h1>
                         <p class="text-xl md:text-2xl mb-8">Discover the perfect property that matches your lifestyle</p>
-                        <a href="/properties" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition">Browse Properties</a>
+                        <a href="{{ route('properties.index') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition">Browse Properties</a>
                     </div>
                 </div>
             </div>
 
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8">Featured Properties</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @foreach($featuredProperties as $property)
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                            <img src="{{ $property->getFirstMediaUrl() ?: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914' }}" 
-                                 alt="{{ $property->title }}" 
-                                 class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <h3 class="text-xl font-semibold mb-2">{{ $property->title }}</h3>
-                                <p class="text-gray-600 mb-4">{{ Str::limit($property->description, 100) }}</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-2xl font-bold text-blue-600">${{ number_format($property->price) }}</span>
-                                    <a href="/properties/{{ $property->slug }}" class="text-blue-600 hover:text-blue-800 font-medium">View Details</a>
+            <!-- Featured Properties Section -->
+            <div class="py-16">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-8">Featured Properties</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        @forelse($featuredProperties ?? [] as $property)
+                            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                                <img src="{{ $property->getFirstMediaUrl() ?: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914' }}" 
+                                     alt="{{ $property->title }}" 
+                                     class="w-full h-48 object-cover">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-semibold mb-2">{{ $property->title }}</h3>
+                                    <p class="text-gray-600 mb-4">{{ Str::limit($property->description, 100) }}</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-2xl font-bold text-blue-600">${{ number_format($property->price) }}</span>
+                                        <a href="{{ route('properties.show', $property->slug) }}" class="text-blue-600 hover:text-blue-800 font-medium">View Details</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @empty
+                            <div class="col-span-3 text-center">
+                                <p class="text-gray-500">No featured properties available at the moment.</p>
+                            </div>
+                        @endforelse
+                    </div>
                 </div>
             </div>
 
+            <!-- Features Section -->
             <div class="bg-gray-100 py-16">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Why Choose Us</h2>
@@ -89,6 +102,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        @endsection
     </body>
 </html>
