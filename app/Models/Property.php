@@ -2,37 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Property extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes, InteractsWithMedia;
+    use HasFactory;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'title',
         'slug',
         'description',
         'price',
-        'type',
         'bedrooms',
         'bathrooms',
-        'land_size',
-        'address',
-        'city',
-        'state',
-        'zip_code',
+        'area',
+        'location',
         'status',
-        'features',
-        'is_featured'
+        'type',
+        'is_featured',
+        'year_built',
+        'garage'
     ];
 
     protected $casts = [
-        'features' => 'array',
         'price' => 'decimal:2',
+        'area' => 'decimal:2',
         'is_featured' => 'boolean',
     ];
 
@@ -43,11 +41,7 @@ class Property extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('property-images')
-            ->useDisk('public');
-
-        $this->addMediaCollection('thumbnail')
-            ->singleFile()
-            ->useDisk('public');
+        $this->addMediaCollection('gallery')
+            ->useFallbackUrl('https://placehold.co/600x400/png');
     }
 }
