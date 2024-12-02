@@ -24,18 +24,72 @@
 
         @section('title', 'Welcome')
 
+        @push('styles')
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        @endpush
+
         @section('content')
-            <!-- Hero Section -->
-            <div class="relative bg-gray-900 h-[600px]">
-                <div class="absolute inset-0">
-                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6" alt="Hero Image" class="w-full h-full object-cover opacity-50">
-                </div>
-                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-                    <div class="text-white">
-                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Find Your Dream Property</h1>
-                        <p class="text-xl md:text-2xl mb-8">Discover the perfect property that matches your lifestyle</p>
-                        <a href="{{ route('properties.index') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition">Browse Properties</a>
+            <!-- Hero Section with Swiper -->
+            <div class="relative">
+                <div class="swiper hero-swiper">
+                    <div class="swiper-wrapper">
+                        @forelse($heroes as $hero)
+                            <div class="swiper-slide relative h-[600px]">
+                                <div class="absolute inset-0">
+                                    <img src="{{ $hero->getFirstMediaUrl('hero') }}" 
+                                         alt="{{ $hero->title }}" 
+                                         class="w-full h-full object-cover">
+                                    <!-- Gradient Overlay -->
+                                    <div class="absolute inset-0 bg-gradient-to-r from-black/50 to-black/25"></div>
+                                </div>
+                                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+                                    <div class="text-white max-w-2xl">
+                                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 animate__animated animate__fadeInUp">
+                                            {{ $hero->title }}
+                                        </h1>
+                                        <p class="text-xl md:text-2xl mb-8 animate__animated animate__fadeInUp animate__delay-1s">
+                                            {{ $hero->subtitle }}
+                                        </p>
+                                        @if($hero->button_text)
+                                            <a href="{{ $hero->button_link }}" 
+                                               class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition animate__animated animate__fadeInUp animate__delay-2s">
+                                                {{ $hero->button_text }}
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="swiper-slide relative h-[600px]">
+                                <div class="absolute inset-0">
+                                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6" 
+                                         alt="Default Hero" 
+                                         class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-black/50 to-black/25"></div>
+                                </div>
+                                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+                                    <div class="text-white max-w-2xl">
+                                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+                                            Find Your Dream Property
+                                        </h1>
+                                        <p class="text-xl md:text-2xl mb-8">
+                                            Discover the perfect property that matches your lifestyle
+                                        </p>
+                                        <a href="{{ route('properties.index') }}" 
+                                           class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition">
+                                            Browse Properties
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforelse
                     </div>
+                    <!-- Navigation Buttons -->
+                    <div class="swiper-button-next text-white"></div>
+                    <div class="swiper-button-prev text-white"></div>
+                    <!-- Pagination -->
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
 
@@ -103,5 +157,32 @@
                 </div>
             </div>
         @endsection
+
+        @push('scripts')
+            <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const swiper = new Swiper('.hero-swiper', {
+                        loop: true,
+                        effect: 'fade',
+                        fadeEffect: {
+                            crossFade: true
+                        },
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        },
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                    });
+                });
+            </script>
+        @endpush
     </body>
 </html>
